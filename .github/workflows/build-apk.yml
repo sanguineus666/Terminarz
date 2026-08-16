@@ -29,6 +29,9 @@ jobs:
           gradle-version: '9.5.0'
           cache-provider: basic
 
+      - name: Ustaw Android SDK
+        uses: android-actions/setup-android@v4
+
       - name: Upewnij się, że Android SDK 37 jest dostępne
         shell: bash
         run: |
