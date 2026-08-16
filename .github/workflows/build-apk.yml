@@ -1,0 +1,53 @@
+name: Zbuduj APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    name: Testy i APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Pobierz kod
+        uses: actions/checkout@v6
+
+      - name: Ustaw Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Ustaw Gradle 9.5.0
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: '9.5.0'
+          cache-provider: basic
+
+      - name: Upewnij się, że Android SDK 37 jest dostępne
+        shell: bash
+        run: |
+          yes | sdkmanager --licenses >/dev/null 2>&1 || true
+          sdkmanager "platforms;android-37" "build-tools;36.0.0"
+
+      - name: Uruchom testy
+        run: gradle --no-daemon testDebugUnitTest
+
+      - name: Zbuduj APK
+        run: gradle --no-daemon assembleDebug
+
+      - name: Przygotuj prostą nazwę pliku
+        run: cp app/build/outputs/apk/debug/app-debug.apk KontrolaDostaw.apk
+
+      - name: Udostępnij APK do pobrania
+        uses: actions/upload-artifact@v4
+        with:
+          name: KontrolaDostaw-APK
+          path: KontrolaDostaw.apk
+          if-no-files-found: error
+          retention-days: 30
