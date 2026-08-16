@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "pl.kontroladostaw.app"
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "pl.kontroladostaw.app"
         minSdk = 26
-        targetSdk = 37
+        targetSdk = 36
         versionCode = 2
         versionName = "1.0.1"
 

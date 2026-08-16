@@ -32,11 +32,11 @@ jobs:
       - name: Ustaw Android SDK
         uses: android-actions/setup-android@v4
 
-      - name: Upewnij się, że Android SDK 37 jest dostępne
+      - name: Upewnij się, że Android SDK 36 jest dostępne
         shell: bash
         run: |
           yes | sdkmanager --licenses >/dev/null 2>&1 || true
-          sdkmanager "platforms;android-37" "build-tools;36.0.0"
+          sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
       - name: Uruchom testy
         run: gradle --no-daemon testDebugUnitTest
